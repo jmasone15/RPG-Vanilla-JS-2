@@ -45,6 +45,15 @@ export class Sprite {
 		}
 	}
 
+	step(delta) {
+		if (!this.animations) {
+			return;
+		}
+
+		this.animations.step(delta);
+		this.frame = this.animations.frame;
+	}
+
 	drawImage(ctx, position) {
 		if (!this.resource.isLoaded) {
 			return;
