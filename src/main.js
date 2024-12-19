@@ -7,6 +7,7 @@ import { Input } from './Input';
 import { gridCells } from './helpers/Grid';
 import { GameObject } from './GameObject';
 import { Hero } from './objects/Hero/Hero';
+import { events } from './Events';
 
 // Grabbing the canvas and context to draw to.
 const canvas = document.getElementById('game-canvas');
@@ -32,6 +33,10 @@ const hero = new Hero({
 // Add content to the scene
 mainScene.addChildren([skySprite, groundSprite, hero]);
 mainScene.input = new Input();
+
+events.on('HERO_POSITION', mainScene, (heroPosition) => {
+	console.log('HERO MOVED!', heroPosition);
+});
 
 // Establish update and draw loops for root scene.
 const update = (delta) => {

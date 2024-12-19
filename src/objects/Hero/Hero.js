@@ -9,6 +9,7 @@ import { resources } from '../../Resource';
 import { Animations } from '../../Animations';
 import { moveTowards } from '../../helpers/moveTowards';
 import { walls } from '../../levels/levelOne';
+import { events } from '../../Events';
 
 export class Hero extends GameObject {
 	constructor({ position, offset }) {
@@ -18,6 +19,7 @@ export class Hero extends GameObject {
 		});
 		this.facingDirection = DIRECTIONS.DOWN;
 		this.destinationPosition = this.position.duplicate();
+		this.lastPosition = this.position.duplicate();
 
 		const shadow = new Sprite({
 			resource: resources.images.shadow,
@@ -45,7 +47,7 @@ export class Hero extends GameObject {
 	}
 
 	// Root is the parent GameObject of the mainScene, we pass it through to get access to the Input class.
-	step(delta, root) {
+	step(_delta, root) {
 		// Every frame, move the hero 1px closer to their destination.
 		const distance = moveTowards(this, this.destinationPosition, 1);
 		const hasArrived = distance < 1;
@@ -55,7 +57,19 @@ export class Hero extends GameObject {
 			this.tryMove(root);
 		}
 
+		this.tryEmitPosition();
+
 		return;
+	}
+
+	tryEmitPosition() {
+		const { x, y } = this.lastPosition;
+		if (x === this.position.x && y === this.position.y) {
+			return;
+		}
+
+		this.lastPosition = this.position.duplicate();
+		events.emit('HERO_POSITION', this.position);
 	}
 
 	tryMove = ({ input }) => {
