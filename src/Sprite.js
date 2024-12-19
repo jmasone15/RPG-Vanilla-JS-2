@@ -1,6 +1,7 @@
+import { GameObject } from './GameObject';
 import { Vector2 } from './Vector2';
 
-export class Sprite {
+export class Sprite extends GameObject {
 	constructor({
 		resource, // Image we want to draw.
 		frameSize, // Size of the crop of the image.
@@ -12,6 +13,8 @@ export class Sprite {
 		offset, // How much to nudge the sprite from this.position.
 		animations
 	}) {
+		super({});
+
 		// Set input values
 		this.resource = resource;
 		this.frameSize = frameSize ?? new Vector2();
@@ -52,6 +55,14 @@ export class Sprite {
 
 		this.animations.step(delta);
 		this.frame = this.animations.frame;
+	}
+
+	movingOrStandingAnimation(isSpaceFree, directionString) {
+		if (isSpaceFree) {
+			this.animations.play(`walk${directionString}`);
+		} else {
+			this.animations.play(`stand${directionString}`);
+		}
 	}
 
 	drawImage(ctx, position) {
