@@ -1,8 +1,8 @@
-import { DIRECTIONS } from '../../Input';
+import { CONSTANTS } from '../../helpers/constants';
 import { heroAnimations } from './heroAnimations';
 import { Vector2 } from '../../Vector2';
 import { FrameIndexPattern } from '../../FrameIndexPattern';
-import { isSpaceFree, gridCells } from '../../helpers/Grid';
+import { isSpaceFree } from '../../helpers/Grid';
 import { GameObject } from '../../GameObject';
 import { Sprite } from '../../Sprite';
 import { resources } from '../../Resource';
@@ -11,15 +11,18 @@ import { moveTowards } from '../../helpers/moveTowards';
 import { walls } from '../../levels/levelOne';
 import { events } from '../../Events';
 
+const { directions } = CONSTANTS;
+const { UP, DOWN, LEFT, RIGHT } = directions;
+
 export class Hero extends GameObject {
 	constructor({ position, offset }) {
 		super({
 			position: position,
 			offset: offset
 		});
-		this.facingDirection = DIRECTIONS.DOWN;
+		this.facingDirection = DOWN;
 		this.destinationPosition = this.position.duplicate();
-		this.lastPosition = this.position.duplicate();
+		this.lastPosition = { x: 1000, y: 1000 };
 
 		const shadow = new Sprite({
 			resource: resources.images.shadow,
@@ -75,13 +78,13 @@ export class Hero extends GameObject {
 	tryMove = ({ input }) => {
 		if (!input.direction) {
 			switch (this.facingDirection) {
-				case DIRECTIONS.LEFT:
+				case LEFT:
 					this.body.animations.play('standLeft');
 					break;
-				case DIRECTIONS.RIGHT:
+				case RIGHT:
 					this.body.animations.play('standRight');
 					break;
-				case DIRECTIONS.UP:
+				case UP:
 					this.body.animations.play('standUp');
 					break;
 				default:
@@ -95,16 +98,16 @@ export class Hero extends GameObject {
 		const nextPos = this.destinationPosition.duplicate();
 		const gridSize = 16;
 
-		if (input.direction === DIRECTIONS.DOWN) {
+		if (input.direction === DOWN) {
 			nextPos.y += gridSize;
 		}
-		if (input.direction === DIRECTIONS.UP) {
+		if (input.direction === UP) {
 			nextPos.y -= gridSize;
 		}
-		if (input.direction === DIRECTIONS.LEFT) {
+		if (input.direction === LEFT) {
 			nextPos.x -= gridSize;
 		}
-		if (input.direction === DIRECTIONS.RIGHT) {
+		if (input.direction === RIGHT) {
 			nextPos.x += gridSize;
 		}
 		this.facingDirection = input.direction ?? this.facingDirection;
@@ -112,16 +115,16 @@ export class Hero extends GameObject {
 		const spaceIsFree = isSpaceFree(walls, nextPos.x, nextPos.y);
 
 		// Update the hero's animation based on direction and if they can move to the next space.
-		if (input.direction === DIRECTIONS.DOWN) {
+		if (input.direction === DOWN) {
 			this.body.movingOrStandingAnimation(spaceIsFree, 'Down');
 		}
-		if (input.direction === DIRECTIONS.UP) {
+		if (input.direction === UP) {
 			this.body.movingOrStandingAnimation(spaceIsFree, 'Up');
 		}
-		if (input.direction === DIRECTIONS.LEFT) {
+		if (input.direction === LEFT) {
 			this.body.movingOrStandingAnimation(spaceIsFree, 'Left');
 		}
-		if (input.direction === DIRECTIONS.RIGHT) {
+		if (input.direction === RIGHT) {
 			this.body.movingOrStandingAnimation(spaceIsFree, 'Right');
 		}
 

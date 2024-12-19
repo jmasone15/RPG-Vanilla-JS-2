@@ -1,52 +1,44 @@
-export const DIRECTIONS = {
-	LEFT: 'LEFT',
-	RIGHT: 'RIGHT',
-	UP: 'UP',
-	DOWN: 'DOWN'
-};
+import { CONSTANTS } from './helpers/constants';
 
 export class Input {
 	constructor() {
-		this.keyCodes = {
-			up: ['ArrowUp', 'KeyW'],
-			down: ['ArrowDown', 'KeyS'],
-			left: ['ArrowLeft', 'KeyA'],
-			right: ['ArrowRight', 'KeyD']
-		};
-
 		this.heldDirections = [];
+
+		const { keyCodes, directions } = CONSTANTS;
+		const { keyUp, keyDown, keyLeft, keyRight } = keyCodes;
+		const { UP, DOWN, LEFT, RIGHT } = directions;
 
 		// You could take the approach of "if this key is pressed increase hero position by that number"
 		// But it has some strange side effects when pressing multiple keys at once.
 		// This method of keeping a running list of all currently pressed keys, will make the game feel a little smoother.
 
 		document.addEventListener('keydown', (e) => {
-			if (this.keyCodes.up.includes(e.code)) {
-				this.onArrowPressed(DIRECTIONS.UP);
+			if (keyUp.includes(e.code)) {
+				this.onArrowPressed(UP);
 			}
-			if (this.keyCodes.down.includes(e.code)) {
-				this.onArrowPressed(DIRECTIONS.DOWN);
+			if (keyDown.includes(e.code)) {
+				this.onArrowPressed(DOWN);
 			}
-			if (this.keyCodes.left.includes(e.code)) {
-				this.onArrowPressed(DIRECTIONS.LEFT);
+			if (keyLeft.includes(e.code)) {
+				this.onArrowPressed(LEFT);
 			}
-			if (this.keyCodes.right.includes(e.code)) {
-				this.onArrowPressed(DIRECTIONS.RIGHT);
+			if (keyRight.includes(e.code)) {
+				this.onArrowPressed(RIGHT);
 			}
 		});
 
 		document.addEventListener('keyup', (e) => {
-			if (this.keyCodes.up.includes(e.code)) {
-				this.onArrowReleased(DIRECTIONS.UP);
+			if (keyUp.includes(e.code)) {
+				this.onArrowReleased(UP);
 			}
-			if (this.keyCodes.down.includes(e.code)) {
-				this.onArrowReleased(DIRECTIONS.DOWN);
+			if (keyDown.includes(e.code)) {
+				this.onArrowReleased(DOWN);
 			}
-			if (this.keyCodes.left.includes(e.code)) {
-				this.onArrowReleased(DIRECTIONS.LEFT);
+			if (keyLeft.includes(e.code)) {
+				this.onArrowReleased(LEFT);
 			}
-			if (this.keyCodes.right.includes(e.code)) {
-				this.onArrowReleased(DIRECTIONS.RIGHT);
+			if (keyRight.includes(e.code)) {
+				this.onArrowReleased(RIGHT);
 			}
 		});
 	}
