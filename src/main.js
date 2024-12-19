@@ -3,13 +3,8 @@ import { GameLoop } from './GameLoop';
 import { resources } from './Resource';
 import { Sprite } from './Sprite';
 import { Vector2 } from './Vector2';
-import { Input, DIRECTIONS } from './Input';
-import { gridCells, isSpaceFree } from './helpers/Grid';
-import { moveTowards } from './helpers/moveTowards';
-import { walls } from './levels/levelOne';
-import { Animations } from './Animations';
-import { FrameIndexPattern } from './FrameIndexPattern';
-import { heroAnimations } from './objects/Hero/heroAnimations';
+import { Input } from './Input';
+import { gridCells } from './helpers/Grid';
 import { GameObject } from './GameObject';
 import { Hero } from './objects/Hero/Hero';
 
