@@ -1,4 +1,5 @@
 import { Vector2 } from './Vector2';
+import { events } from './Events';
 
 // This class works as any generic object within the game. All other objects within the game should be extended from this.
 // It has it's own step method, draw method, and a parent child relationship functionality.
@@ -61,7 +62,7 @@ export class GameObject {
 	}
 
 	removeChild(gameObject) {
-		// events.unsubscribe(gameObject);
+		events.unsubscribe(gameObject);
 		this.children = this.children.filter((child) => {
 			return gameObject !== child;
 		});

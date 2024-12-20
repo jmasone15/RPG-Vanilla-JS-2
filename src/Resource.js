@@ -5,7 +5,8 @@ class Resources {
 			sky: 'sky',
 			ground: 'ground',
 			hero: 'hero-sheet',
-			shadow: 'shadow'
+			shadow: 'shadow',
+			rod: 'rod'
 		};
 
 		// A bucket to keep all of our images.

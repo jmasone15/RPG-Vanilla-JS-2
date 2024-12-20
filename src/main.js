@@ -9,6 +9,7 @@ import { GameObject } from './GameObject';
 import { Hero } from './objects/Hero/Hero';
 import { Camera } from './Camera';
 import { CONSTANTS } from './helpers/constants';
+import { Rod } from './objects/Rod/Rod';
 
 // Grabbing the canvas and context to draw to.
 const { canvas, cWidth, cHeight } = CONSTANTS;
@@ -27,14 +28,16 @@ const groundSprite = new Sprite({
 	frameSize: new Vector2(cWidth, cHeight)
 });
 const hero = new Hero({
-	position: new Vector2(gridCells(6), gridCells(5)),
-	offset: new Vector2(-8, -20)
+	position: new Vector2(gridCells(6), gridCells(5))
 });
 
 const camera = new Camera();
+const rod = new Rod({
+	position: new Vector2(gridCells(7), gridCells(6))
+});
 
 // Add content to the scene
-mainScene.addChildren([groundSprite, hero]);
+mainScene.addChildren([groundSprite, hero, rod]);
 mainScene.input = new Input();
 
 // Establish update and draw loops for root scene.

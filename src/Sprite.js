@@ -17,7 +17,7 @@ export class Sprite extends GameObject {
 
 		// Set input values
 		this.resource = resource;
-		this.frameSize = frameSize ?? new Vector2();
+		this.frameSize = frameSize ?? new Vector2(16, 16);
 		this.hFrames = hFrames ?? 1;
 		this.vFrames = vFrames ?? 1;
 		this.frame = frame ?? 0;

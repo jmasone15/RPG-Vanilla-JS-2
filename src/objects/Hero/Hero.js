@@ -18,12 +18,22 @@ export class Hero extends GameObject {
 	constructor({ position, offset }) {
 		super({
 			position: position,
-			offset: offset
+			offset: offset ?? new Vector2(-8, -20)
 		});
+
+		// Internal State
 		this.facingDirection = DOWN;
 		this.destinationPosition = this.position.duplicate();
 		this.lastPosition = { x: 1000, y: 1000 };
+		this.itemPickupTime = 0;
+		this.itemPickupShell = null;
 
+		// Events
+		events.on('HERO_PICKS_UP_ITEM', this, (data) => {
+			this.onPickUpItem(data);
+		});
+
+		// Children
 		const shadow = new Sprite({
 			resource: resources.images.shadow,
 			frameSize: new Vector2(32, 32)
@@ -43,14 +53,21 @@ export class Hero extends GameObject {
 				standDown: new FrameIndexPattern(heroAnimations.STAND_DOWN),
 				standUp: new FrameIndexPattern(heroAnimations.STAND_UP),
 				standLeft: new FrameIndexPattern(heroAnimations.STAND_LEFT),
-				standRight: new FrameIndexPattern(heroAnimations.STAND_RIGHT)
+				standRight: new FrameIndexPattern(heroAnimations.STAND_RIGHT),
+				pickUpDown: new FrameIndexPattern(heroAnimations.PICK_UP_DOWN)
 			})
 		});
 		this.addChildren([shadow, this.body]);
 	}
 
 	// Root is the parent GameObject of the mainScene, we pass it through to get access to the Input class.
-	step(_delta, root) {
+	step(delta, root) {
+		// Lock movement if in item pickup animation.
+		if (this.itemPickupTime > 0) {
+			this.workOnItemPickup(delta);
+			return;
+		}
+
 		// Every frame, move the hero 1px closer to their destination.
 		const distance = moveTowards(this, this.destinationPosition, 1);
 		const hasArrived = distance < 1;
@@ -133,4 +150,30 @@ export class Hero extends GameObject {
 			this.destinationPosition = nextPos.duplicate();
 		}
 	};
+
+	workOnItemPickup(delta) {
+		this.itemPickupTime -= delta;
+		this.body.animations.play('pickUpDown');
+
+		// Once animation is finished, remove the newly created GameObject above the hero's head.
+		if (this.itemPickupTime <= 0) {
+			this.itemPickupShell.destroy();
+		}
+	}
+
+	onPickUpItem({ image, position }) {
+		// Make sure we pause right on the item.
+		this.destinationPosition = position.duplicate();
+
+		// Start the pickup animation
+		this.itemPickupTime = 1000;
+
+		// Create a new game object of the item that was picked up.
+		this.itemPickupShell = new GameObject({
+			// Translate the position of the picked up item to be just above the hero's head.
+			offset: new Vector2(8, 2)
+		});
+		this.itemPickupShell.addChild(new Sprite({ resource: image }));
+		this.addChild(this.itemPickupShell);
+	}
 }
