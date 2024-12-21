@@ -1,8 +1,8 @@
-import { Vector2 } from '../../Vector2';
-import { Sprite } from '../../Sprite';
-import { resources } from '../../Resource';
-import { GameObject } from '../../GameObject';
-import { events } from '../../Events';
+import { Vector2 } from '../Vector2';
+import { Sprite } from '../Sprite';
+import { resources } from '../Resource';
+import { GameObject } from '../GameObject';
+import { events } from '../Events';
 
 export class Rod extends GameObject {
 	constructor({ position, offset }) {

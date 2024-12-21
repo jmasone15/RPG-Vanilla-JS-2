@@ -68,11 +68,13 @@ export class GameObject {
 		});
 	}
 
-	destroy() {
+	destroy(keepParent = false) {
 		this.children.forEach((child) => {
 			child.destroy();
 		});
 
-		this.parent.removeChild(this);
+		if (!keepParent) {
+			this.parent.removeChild(this);
+		}
 	}
 }

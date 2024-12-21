@@ -27,8 +27,9 @@ export class Hero extends GameObject {
 		this.lastPosition = { x: 1000, y: 1000 };
 		this.itemPickupTime = 0;
 		this.itemPickupShell = null;
+		this.itemPickupImage = null;
 
-		// Events
+		// Event Listeners
 		events.on('HERO_PICKS_UP_ITEM', this, (data) => {
 			this.onPickUpItem(data);
 		});
@@ -158,6 +159,7 @@ export class Hero extends GameObject {
 		// Once animation is finished, remove the newly created GameObject above the hero's head.
 		if (this.itemPickupTime <= 0) {
 			this.itemPickupShell.destroy();
+			events.emit('ADD_ITEM_TO_INVENTORY', this.itemPickupImage);
 		}
 	}
 
@@ -169,6 +171,7 @@ export class Hero extends GameObject {
 		this.itemPickupTime = 1000;
 
 		// Create a new game object of the item that was picked up.
+		this.itemPickupImage = image;
 		this.itemPickupShell = new GameObject({
 			// Translate the position of the picked up item to be just above the hero's head.
 			offset: new Vector2(8, 2)

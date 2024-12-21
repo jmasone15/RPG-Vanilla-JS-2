@@ -9,7 +9,8 @@ import { GameObject } from './GameObject';
 import { Hero } from './objects/Hero/Hero';
 import { Camera } from './Camera';
 import { CONSTANTS } from './helpers/constants';
-import { Rod } from './objects/Rod/Rod';
+import { Rod } from './objects/Rod';
+import { Inventory } from './objects/Inventory';
 
 // Grabbing the canvas and context to draw to.
 const { canvas, cWidth, cHeight } = CONSTANTS;
@@ -35,6 +36,8 @@ const camera = new Camera();
 const rod = new Rod({
 	position: new Vector2(gridCells(7), gridCells(6))
 });
+
+const inventory = new Inventory();
 
 // Add content to the scene
 mainScene.addChildren([groundSprite, hero, rod]);
@@ -62,6 +65,9 @@ const draw = () => {
 
 	// Restore to original state
 	ctx.restore();
+
+	// Draw anything above the game world.
+	inventory.draw(ctx, new Vector2());
 };
 
 // Start the game!
