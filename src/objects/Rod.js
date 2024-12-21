@@ -15,7 +15,10 @@ export class Rod extends GameObject {
 			resource: resources.images.rod
 		});
 		this.addChild(sprite);
+	}
 
+	ready() {
+		console.log('ROD IS READY');
 		events.on('HERO_POSITION', this, (heroPos) => {
 			// Collision Event
 			const { x, y } = this.position;

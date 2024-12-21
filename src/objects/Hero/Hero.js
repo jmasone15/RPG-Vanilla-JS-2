@@ -29,11 +29,6 @@ export class Hero extends GameObject {
 		this.itemPickupShell = null;
 		this.itemPickupImage = null;
 
-		// Event Listeners
-		events.on('HERO_PICKS_UP_ITEM', this, (data) => {
-			this.onPickUpItem(data);
-		});
-
 		// Children
 		const shadow = new Sprite({
 			resource: resources.images.shadow,
@@ -59,6 +54,13 @@ export class Hero extends GameObject {
 			})
 		});
 		this.addChildren([shadow, this.body]);
+	}
+
+	ready() {
+		// Event Listeners
+		events.on('HERO_PICKS_UP_ITEM', this, (data) => {
+			this.onPickUpItem(data);
+		});
 	}
 
 	// Root is the parent GameObject of the mainScene, we pass it through to get access to the Input class.
