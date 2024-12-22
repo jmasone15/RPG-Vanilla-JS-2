@@ -11,6 +11,8 @@ import { Camera } from './Camera';
 import { CONSTANTS } from './helpers/constants';
 import { Rod } from './objects/Rod';
 import { Inventory } from './objects/Inventory';
+import { Exit } from './objects/Exit';
+import { events } from './Events';
 
 // Grabbing the canvas and context to draw to.
 const { canvas, cWidth, cHeight } = CONSTANTS;
@@ -36,12 +38,19 @@ const camera = new Camera();
 const rod = new Rod({
 	position: new Vector2(gridCells(7), gridCells(6))
 });
+const exit = new Exit({
+	position: new Vector2(gridCells(6), gridCells(3))
+});
 
 const inventory = new Inventory();
 
 // Add content to the scene
-mainScene.addChildren([groundSprite, hero, rod]);
+mainScene.addChildren([groundSprite, exit, hero, rod]);
 mainScene.input = new Input();
+
+events.on('HERO_EXITS', mainScene, () => {
+	console.log('CHANGE THE MAP...');
+});
 
 // Establish update and draw loops for root scene.
 const update = (delta) => {

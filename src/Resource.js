@@ -6,7 +6,10 @@ class Resources {
 			ground: 'ground',
 			hero: 'hero-sheet',
 			shadow: 'shadow',
-			rod: 'rod'
+			rod: 'rod',
+			exit: 'exit',
+			cave: 'cave',
+			caveGround: 'cave-ground'
 		};
 
 		// A bucket to keep all of our images.
