@@ -8,7 +8,6 @@ import { Sprite } from '../../Sprite';
 import { resources } from '../../Resource';
 import { Animations } from '../../Animations';
 import { moveTowards } from '../../helpers/moveTowards';
-import { walls } from '../../levels/levelOne';
 import { events } from '../../Events';
 
 const { directions } = CONSTANTS;
@@ -95,7 +94,7 @@ export class Hero extends GameObject {
 		events.emit('HERO_POSITION', this.position);
 	}
 
-	tryMove = ({ input }) => {
+	tryMove = ({ input, level }) => {
 		if (!input.direction) {
 			switch (this.facingDirection) {
 				case LEFT:
@@ -132,7 +131,7 @@ export class Hero extends GameObject {
 		}
 		this.facingDirection = input.direction ?? this.facingDirection;
 
-		const spaceIsFree = isSpaceFree(walls, nextPos.x, nextPos.y);
+		const spaceIsFree = isSpaceFree(level.walls, nextPos.x, nextPos.y);
 
 		// Update the hero's animation based on direction and if they can move to the next space.
 		if (input.direction === DOWN) {

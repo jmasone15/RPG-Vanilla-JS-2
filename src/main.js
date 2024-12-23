@@ -1,56 +1,17 @@
 import './style.css';
 import { GameLoop } from './GameLoop';
-import { resources } from './Resource';
-import { Sprite } from './Sprite';
 import { Vector2 } from './Vector2';
-import { Input } from './Input';
-import { gridCells } from './helpers/Grid';
-import { GameObject } from './GameObject';
-import { Hero } from './objects/Hero/Hero';
-import { Camera } from './Camera';
 import { CONSTANTS } from './helpers/constants';
-import { Rod } from './objects/Rod';
-import { Inventory } from './objects/Inventory';
-import { Exit } from './objects/Exit';
-import { events } from './Events';
+import { Main } from './objects/Main';
+import { OutdoorLevelOne } from './levels/OutdoorLevelOne';
+import { CaveLevelOne } from './levels/CaveLevelOne';
 
 // Grabbing the canvas and context to draw to.
-const { canvas, cWidth, cHeight } = CONSTANTS;
-const ctx = canvas.getContext('2d');
+const { ctx, cWidth, cHeight } = CONSTANTS;
 
 // Establish the root scene.
-const mainScene = new GameObject({});
-
-// Create sprites for scene.
-const skySprite = new Sprite({
-	resource: resources.images.sky,
-	frameSize: new Vector2(cWidth, cHeight)
-});
-const groundSprite = new Sprite({
-	resource: resources.images.ground,
-	frameSize: new Vector2(cWidth, cHeight)
-});
-const hero = new Hero({
-	position: new Vector2(gridCells(6), gridCells(5))
-});
-
-const camera = new Camera();
-const rod = new Rod({
-	position: new Vector2(gridCells(7), gridCells(6))
-});
-const exit = new Exit({
-	position: new Vector2(gridCells(6), gridCells(3))
-});
-
-const inventory = new Inventory();
-
-// Add content to the scene
-mainScene.addChildren([groundSprite, exit, hero, rod]);
-mainScene.input = new Input();
-
-events.on('HERO_EXITS', mainScene, () => {
-	console.log('CHANGE THE MAP...');
-});
+const mainScene = new Main({});
+mainScene.setLevel(new CaveLevelOne());
 
 // Establish update and draw loops for root scene.
 const update = (delta) => {
@@ -60,14 +21,17 @@ const draw = () => {
 	// Clear out anything stale.
 	ctx.clearRect(0, 0, cWidth, cHeight);
 
-	// We want the sky backround to always be static, so draw it outside the relative camera position.
-	skySprite.drawImage(ctx, new Vector2());
+	// We want the game backround to always be static, so draw it outside the relative camera position.
+	mainScene.drawBackground();
 
 	// Save the current state (for camera offset).
 	ctx.save();
 
 	// Offset by camera position
-	ctx.translate(camera.position.x, camera.position.y);
+	if (mainScene.camera) {
+		const { x, y } = mainScene.camera.position;
+		ctx.translate(x, y);
+	}
 
 	// Draw objects in the offset scene.
 	mainScene.draw(ctx, new Vector2());
@@ -76,7 +40,7 @@ const draw = () => {
 	ctx.restore();
 
 	// Draw anything above the game world.
-	inventory.draw(ctx, new Vector2());
+	mainScene.drawForeground();
 };
 
 // Start the game!
