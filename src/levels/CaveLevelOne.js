@@ -10,11 +10,12 @@ import { gridCells } from '../helpers/Grid';
 import { events } from '../Events';
 import { OutdoorLevelOne } from './OutdoorLevelOne';
 
-const { cWidth, cHeight } = CONSTANTS;
+const { cWidth, cHeight, defaultHeroPosition } = CONSTANTS;
 
 export class CaveLevelOne extends Level {
-	constructor() {
+	constructor(params = {}) {
 		super({});
+		this.heroStartPosition = params?.heroStartPosition ?? defaultHeroPosition;
 
 		// Background and Foreground Content
 		this.background = new Sprite({
@@ -28,7 +29,7 @@ export class CaveLevelOne extends Level {
 
 		// Level Sprites
 		const hero = new Hero({
-			position: new Vector2(gridCells(6), gridCells(5))
+			position: this.heroStartPosition
 		});
 		const rod = new Rod({
 			position: new Vector2(gridCells(7), gridCells(7))
@@ -44,7 +45,12 @@ export class CaveLevelOne extends Level {
 	ready() {
 		console.log('CAVE LEVEL ONE IS READY');
 		events.on('HERO_EXITS', this, () => {
-			events.emit('CHANGE_LEVEL', new OutdoorLevelOne());
+			events.emit(
+				'CHANGE_LEVEL',
+				new OutdoorLevelOne({
+					heroStartPosition: new Vector2(gridCells(15), gridCells(4))
+				})
+			);
 		});
 	}
 

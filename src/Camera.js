@@ -10,6 +10,10 @@ export class Camera extends GameObject {
 		events.on('HERO_POSITION', this, (heroPosition) => {
 			this.centerPositionOnTarget(heroPosition);
 		});
+
+		events.on('CHANGE_LEVEL', this, ({ heroStartPosition }) => {
+			this.centerPositionOnTarget(heroStartPosition);
+		});
 	}
 
 	centerPositionOnTarget(position) {
