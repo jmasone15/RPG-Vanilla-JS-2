@@ -9,6 +9,7 @@ import { Exit } from '../objects/Exit';
 import { gridCells } from '../helpers/Grid';
 import { events } from '../Events';
 import { OutdoorLevelOne } from './OutdoorLevelOne';
+import { Knight } from '../objects/Knight/Knight';
 
 const { cWidth, cHeight, defaultHeroPosition } = CONSTANTS;
 
@@ -37,9 +38,12 @@ export class CaveLevelOne extends Level {
 		const exit = new Exit({
 			position: new Vector2(gridCells(3), gridCells(5))
 		});
+		const knight = new Knight({
+			position: new Vector2(gridCells(5), gridCells(5))
+		});
 
 		// Add to Scene
-		this.addChildren([this.ground, rod, exit, hero]);
+		this.addChildren([this.ground, rod, exit, hero, knight]);
 	}
 
 	ready() {

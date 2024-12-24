@@ -14,6 +14,8 @@ export class GameObject {
 		this.offset = offset ?? new Vector2();
 		this.children = [];
 		this.isReady = false;
+		this.isSolid = false;
+		this.drawLayer = null;
 	}
 
 	// Update runs children first and then parent.
@@ -55,7 +57,19 @@ export class GameObject {
 		this.drawImage(ctx, drawPos);
 
 		// Pass on to children.
-		this.children.forEach((child) => child.draw(ctx, drawPos));
+		this.sortChildrenForDraw().forEach((child) => child.draw(ctx, drawPos));
+	}
+
+	sortChildrenForDraw() {
+		// Spread operator makes a copy of the original array without modifying it.
+		// Sort the array by the y positions so that the children that are more north (lower y) get drawn first.
+		return [...this.children].sort((a, b) => {
+			if (b.drawLayer === 'FLOOR') {
+				return 1;
+			}
+
+			return a.position.y > b.position.y ? 1 : -1;
+		});
 	}
 
 	drawImage(_ctx, _position) {

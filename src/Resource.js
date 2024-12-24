@@ -9,7 +9,8 @@ class Resources {
 			rod: 'rod',
 			exit: 'exit',
 			cave: 'cave',
-			caveGround: 'cave-ground'
+			caveGround: 'cave-ground',
+			knight: 'knight-sheet-1'
 		};
 
 		// A bucket to keep all of our images.

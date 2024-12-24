@@ -131,7 +131,14 @@ export class Hero extends GameObject {
 		}
 		this.facingDirection = input.direction ?? this.facingDirection;
 
-		const spaceIsFree = isSpaceFree(level.walls, nextPos.x, nextPos.y);
+		// Checks for wall or solid gameObjects at destination space.
+		const isSpaceFreeCheck = isSpaceFree(level.walls, nextPos.x, nextPos.y);
+		const solidBodyAtSpace = this.parent.children.find((c) => {
+			return (
+				c.isSolid && c.position.x === nextPos.x && c.position.y === nextPos.y
+			);
+		});
+		const spaceIsFree = isSpaceFreeCheck && !solidBodyAtSpace;
 
 		// Update the hero's animation based on direction and if they can move to the next space.
 		if (input.direction === DOWN) {
@@ -175,7 +182,7 @@ export class Hero extends GameObject {
 		this.itemPickupImage = image;
 		this.itemPickupShell = new GameObject({
 			// Translate the position of the picked up item to be just above the hero's head.
-			offset: new Vector2(8, 2)
+			offset: new Vector2(8, -5)
 		});
 		this.itemPickupShell.addChild(new Sprite({ resource: image }));
 		this.addChild(this.itemPickupShell);
