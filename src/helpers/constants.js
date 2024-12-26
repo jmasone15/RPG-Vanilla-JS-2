@@ -21,5 +21,11 @@ export const CONSTANTS = {
 		RIGHT: 'RIGHT',
 		UP: 'UP',
 		DOWN: 'DOWN'
+	},
+	textBox: {
+		MAX_WIDTH: 250,
+		LINE_HEIGHT: 20,
+		PADDING_LEFT: 10,
+		PADDING_TOP: 12
 	}
 };

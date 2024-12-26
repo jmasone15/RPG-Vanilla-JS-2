@@ -5,6 +5,7 @@ import { Inventory } from './Inventory';
 import { CONSTANTS } from '../helpers/constants';
 import { Vector2 } from '../Vector2';
 import { events } from '../Events';
+import { TextBox } from './TextBox';
 
 const { ctx } = CONSTANTS;
 
@@ -15,6 +16,7 @@ export class Main extends GameObject {
 		this.input = new Input();
 		this.camera = new Camera();
 		this.inventory = new Inventory();
+		this.textBox = new TextBox();
 	}
 
 	ready() {
@@ -41,5 +43,6 @@ export class Main extends GameObject {
 	drawForeground() {
 		const { x, y } = this.inventory.position;
 		this.inventory.draw(ctx, new Vector2(x, y));
+		this.textBox.draw(ctx, new Vector2());
 	}
 }

@@ -10,7 +10,8 @@ class Resources {
 			exit: 'exit',
 			cave: 'cave',
 			caveGround: 'cave-ground',
-			knight: 'knight-sheet-1'
+			knight: 'knight-sheet-1',
+			textBox: 'text-box'
 		};
 
 		// A bucket to keep all of our images.
