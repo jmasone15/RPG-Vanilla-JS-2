@@ -39,11 +39,16 @@ export class CaveLevelOne extends Level {
 			position: new Vector2(gridCells(3), gridCells(5))
 		});
 		const knight = new Knight({
-			position: new Vector2(gridCells(5), gridCells(5))
+			position: new Vector2(gridCells(5), gridCells(5)),
+			contentString: 'I am the first NPC!'
+		});
+		const knight2 = new Knight({
+			position: new Vector2(gridCells(10), gridCells(5)),
+			contentString: 'I am the second NPC!'
 		});
 
 		// Add to Scene
-		this.addChildren([this.ground, rod, exit, hero, knight]);
+		this.addChildren([this.ground, rod, exit, hero, knight, knight2]);
 	}
 
 	ready() {

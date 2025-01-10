@@ -84,7 +84,16 @@ export class Hero extends GameObject {
 
 		// Check for input
 		if (root.input?.getActionJustPressed('Space')) {
-			events.emit('HERO_REQUESTS_ACTION');
+			// Look for an object at the next space (according to where the Hero is facing).
+			const objAtPosition = this.parent.children.find((child) => {
+				return child.position.matches(
+					this.position.toNeighbor(this.facingDirection)
+				);
+			});
+
+			if (objAtPosition) {
+				events.emit('HERO_REQUESTS_ACTION', objAtPosition);
+			}
 		}
 
 		// Every frame, move the hero 1px closer to their destination.

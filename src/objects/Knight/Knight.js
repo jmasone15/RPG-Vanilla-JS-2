@@ -4,11 +4,14 @@ import { Sprite } from '../../Sprite';
 import { Vector2 } from '../../Vector2';
 
 export class Knight extends GameObject {
-	constructor({ position, offset }) {
+	constructor({ position, offset, contentString, portraitFrame }) {
 		super({
 			position: position,
 			offset: offset ?? new Vector2(-8, -20)
 		});
+
+		// Say something when talking.
+		this.contentString = contentString;
 
 		// Opt into being solid
 		this.isSolid = true;
@@ -28,5 +31,14 @@ export class Knight extends GameObject {
 		});
 
 		this.addChildren([shadow, body]);
+	}
+
+	getContent() {
+		// Maybe expand with story flag logic, etc.
+
+		return {
+			string: this.contentString ?? 'You found me!',
+			portraitFrame: this.portraitFrame ?? 1
+		};
 	}
 }

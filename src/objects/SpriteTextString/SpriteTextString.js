@@ -16,11 +16,11 @@ const {
 } = letterConfig;
 
 export class SpriteTextString extends GameObject {
-	constructor(str) {
+	constructor({ string, portraitFrame }) {
 		super({
 			position: new Vector2(32, 112)
 		});
-		this.content = str ?? 'Oops';
+		this.content = string ?? 'Oops';
 		this.drawLayer = 'HUD';
 		this.cursorPos = new Vector2();
 
@@ -53,9 +53,18 @@ export class SpriteTextString extends GameObject {
 				chars
 			};
 		});
+
+		// Create background for the text.
 		this.backdrop = new Sprite({
 			resource: resources.images.textBox,
 			frameSize: new Vector2(256, 64)
+		});
+
+		// Create a portrait for who is speaking.
+		this.portrait = new Sprite({
+			resource: resources.images.portraits,
+			hFrames: 4,
+			frame: portraitFrame ?? 0 // Default is Hero
 		});
 
 		// Typewriter
@@ -66,8 +75,6 @@ export class SpriteTextString extends GameObject {
 			0
 		);
 		this.timeUntilNextShow = TEXT_SPEED;
-
-		console.log(this.finalIndex);
 	}
 
 	step(delta, root) {
@@ -99,11 +106,15 @@ export class SpriteTextString extends GameObject {
 		// Draw the backdrop.
 		this.backdrop.drawImage(ctx, position);
 
-		// Setup
+		// Draw the portrait.
+		this.portrait.drawImage(ctx, new Vector2(position.x + 6, position.y + 6));
+
+		// Position setup.
+		const portraitOffset = new Vector2(20, 2);
 		this.currentIndex = 0;
 		this.cursorPos = new Vector2(
-			position.x + PADDING_LEFT,
-			position.y + PADDING_TOP
+			position.x + PADDING_LEFT + portraitOffset.x,
+			position.y + PADDING_TOP + portraitOffset.y
 		);
 
 		// Run char and word printing logic.

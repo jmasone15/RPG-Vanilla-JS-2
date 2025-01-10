@@ -12,7 +12,8 @@ class Resources {
 			caveGround: 'cave-ground',
 			knight: 'knight-sheet-1',
 			textBox: 'text-box',
-			fontWhite: 'sprite-font-white'
+			fontWhite: 'sprite-font-white',
+			portraits: 'portraits-sheet'
 		};
 
 		// A bucket to keep all of our images.

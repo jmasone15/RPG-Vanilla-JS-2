@@ -27,16 +27,23 @@ export class Main extends GameObject {
 		events.on('CHANGE_LEVEL', this, (newLevelInstance) => {
 			this.setLevel(newLevelInstance);
 		});
-		events.on('HERO_REQUESTS_ACTION', this, () => {
-			const textbox = new SpriteTextString('Howdy, friend!');
-			this.addChild(textbox);
-			events.emit('START_TEXT_BOX');
+		events.on('HERO_REQUESTS_ACTION', this, (withObject) => {
+			if (typeof withObject.getContent === 'function') {
+				const { string, portraitFrame } = withObject.getContent();
+				const textbox = new SpriteTextString({
+					string,
+					portraitFrame
+				});
 
-			// Unsubscribe from this text box after it's destroyed.
-			const endingSub = events.on('END_TEXT_BOX', this, () => {
-				textbox.destroy();
-				events.off(endingSub);
-			});
+				this.addChild(textbox);
+				events.emit('START_TEXT_BOX');
+
+				// Unsubscribe from this text box after it's destroyed.
+				const endingSub = events.on('END_TEXT_BOX', this, () => {
+					textbox.destroy();
+					events.off(endingSub);
+				});
+			}
 		});
 	}
 
