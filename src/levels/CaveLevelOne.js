@@ -10,6 +10,7 @@ import { gridCells } from '../helpers/Grid';
 import { events } from '../Events';
 import { OutdoorLevelOne } from './OutdoorLevelOne';
 import { Knight } from '../objects/Knight/Knight';
+import { TALKED_TO_A, TALKED_TO_B } from '../StoryFlags';
 
 const { cWidth, cHeight, defaultHeroPosition } = CONSTANTS;
 
@@ -40,11 +41,32 @@ export class CaveLevelOne extends Level {
 		});
 		const knight = new Knight({
 			position: new Vector2(gridCells(5), gridCells(5)),
-			contentString: 'I am the first NPC!'
+			content: [
+				{
+					string: "I just can't stand that guy.",
+					requires: [TALKED_TO_B],
+					bypass: [TALKED_TO_A],
+					addsFlag: TALKED_TO_A
+				},
+				{
+					string: 'He is just the worst!',
+					requires: [TALKED_TO_A]
+				},
+				{
+					string: 'Grumble grumble. Another day at work.'
+				}
+			],
+			portraitFrame: 1
 		});
 		const knight2 = new Knight({
 			position: new Vector2(gridCells(10), gridCells(5)),
-			contentString: 'I am the second NPC!'
+			content: [
+				{
+					string: 'What a wonderful day at work in the cave!',
+					addsFlag: TALKED_TO_B
+				}
+			],
+			portraitFrame: 1
 		});
 
 		// Add to Scene

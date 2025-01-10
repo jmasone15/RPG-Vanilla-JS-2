@@ -6,6 +6,7 @@ import { CONSTANTS } from '../helpers/constants';
 import { Vector2 } from '../Vector2';
 import { events } from '../Events';
 import { SpriteTextString } from './SpriteTextString/SpriteTextString';
+import { storyFlags } from '../StoryFlags';
 
 const { ctx } = CONSTANTS;
 
@@ -29,10 +30,20 @@ export class Main extends GameObject {
 		});
 		events.on('HERO_REQUESTS_ACTION', this, (withObject) => {
 			if (typeof withObject.getContent === 'function') {
-				const { string, portraitFrame } = withObject.getContent();
+				const content = withObject.getContent();
+
+				if (!content) {
+					return;
+				}
+
+				// Potentially add a story flag
+				if (content.addsFlag) {
+					storyFlags.add(content.addsFlag);
+				}
+
 				const textbox = new SpriteTextString({
-					string,
-					portraitFrame
+					string: content.string,
+					portraitFrame: content.portraitFrame
 				});
 
 				this.addChild(textbox);

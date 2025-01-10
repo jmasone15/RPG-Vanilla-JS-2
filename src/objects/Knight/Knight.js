@@ -1,17 +1,19 @@
 import { GameObject } from '../../GameObject';
 import { resources } from '../../Resource';
 import { Sprite } from '../../Sprite';
+import { storyFlags } from '../../StoryFlags';
 import { Vector2 } from '../../Vector2';
 
 export class Knight extends GameObject {
-	constructor({ position, offset, contentString, portraitFrame }) {
+	constructor({ position, offset, content, portraitFrame }) {
 		super({
 			position: position,
 			offset: offset ?? new Vector2(-8, -20)
 		});
 
-		// Say something when talking.
-		this.contentString = contentString;
+		// Say and Show something when talking.
+		this.content = content;
+		this.portraitFrame = portraitFrame;
 
 		// Opt into being solid
 		this.isSolid = true;
@@ -34,11 +36,17 @@ export class Knight extends GameObject {
 	}
 
 	getContent() {
-		// Maybe expand with story flag logic, etc.
+		const match = storyFlags.getRelevantScenario(this.content);
+
+		if (!match) {
+			console.warn('No matches found in this list!', this.content);
+			return null;
+		}
 
 		return {
-			string: this.contentString ?? 'You found me!',
-			portraitFrame: this.portraitFrame ?? 1
+			string: match.string,
+			portraitFrame: this.portraitFrame ?? 1,
+			addsFlag: match.addsFlag ?? null
 		};
 	}
 }
