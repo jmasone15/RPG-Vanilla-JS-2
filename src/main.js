@@ -14,7 +14,9 @@ mainScene.setLevel(new CaveLevelOne());
 // Establish update and draw loops for root scene.
 const update = (delta) => {
 	mainScene.stepEntry(delta, mainScene);
+	mainScene.input?.update();
 };
+
 const draw = () => {
 	// Clear out anything stale.
 	ctx.clearRect(0, 0, cWidth, cHeight);

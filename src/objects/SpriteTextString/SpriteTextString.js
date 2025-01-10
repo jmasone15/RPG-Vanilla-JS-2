@@ -4,6 +4,7 @@ import { Vector2 } from '../../Vector2';
 import { resources } from '../../Resource';
 import { getCharacterFrame, getCharacterWidth } from './SpriteFontMap';
 import { CONSTANTS } from '../../helpers/constants';
+import { events } from '../../Events';
 
 const { ctx, letterConfig } = CONSTANTS;
 const {
@@ -60,10 +61,29 @@ export class SpriteTextString extends GameObject {
 		// Typewriter
 		this.showingIndex = 0;
 		this.currentIndex = 0;
+		this.finalIndex = this.words.reduce(
+			(acc, word) => acc + word.chars.length,
+			0
+		);
 		this.timeUntilNextShow = TEXT_SPEED;
+
+		console.log(this.finalIndex);
 	}
 
-	step(delta) {
+	step(delta, root) {
+		// Listen for user Input
+		if (root.input?.getActionJustPressed('Space')) {
+			// Skip Text
+			if (this.showingIndex < this.finalIndex) {
+				this.showingIndex = this.finalIndex;
+				return;
+			}
+
+			// Done with the textbox
+			events.emit('END_TEXT_BOX');
+		}
+
+		// Work on typewriter
 		this.timeUntilNextShow -= delta;
 
 		if (this.timeUntilNextShow <= 0) {

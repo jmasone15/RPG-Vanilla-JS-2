@@ -27,6 +27,7 @@ export class Hero extends GameObject {
 		this.itemPickupTime = 0;
 		this.itemPickupShell = null;
 		this.itemPickupImage = null;
+		this.isLocked = false;
 
 		// Children
 		const shadow = new Sprite({
@@ -60,14 +61,30 @@ export class Hero extends GameObject {
 		events.on('HERO_PICKS_UP_ITEM', this, (data) => {
 			this.onPickUpItem(data);
 		});
+
+		events.on('START_TEXT_BOX', this, () => {
+			this.isLocked = true;
+		});
+		events.on('END_TEXT_BOX', this, () => {
+			this.isLocked = false;
+		});
 	}
 
 	// Root is the parent GameObject of the mainScene, we pass it through to get access to the Input class.
 	step(delta, root) {
+		if (this.isLocked) {
+			return;
+		}
+
 		// Lock movement if in item pickup animation.
 		if (this.itemPickupTime > 0) {
 			this.workOnItemPickup(delta);
 			return;
+		}
+
+		// Check for input
+		if (root.input?.getActionJustPressed('Space')) {
+			events.emit('HERO_REQUESTS_ACTION');
 		}
 
 		// Every frame, move the hero 1px closer to their destination.
