@@ -1,9 +1,7 @@
 import './style.css';
 import { GameLoop } from './GameLoop';
-import { Vector2 } from './Vector2';
 import { CONSTANTS } from './helpers/constants';
 import { Main } from './objects/Main';
-import { OutdoorLevelOne } from './levels/OutdoorLevelOne';
 import { CaveLevelOne } from './levels/CaveLevelOne';
 
 // Grabbing the canvas and context to draw to.
@@ -34,7 +32,7 @@ const draw = () => {
 	}
 
 	// Draw objects in the offset scene.
-	mainScene.draw(ctx, new Vector2());
+	mainScene.drawObjects();
 
 	// Restore to original state
 	ctx.restore();
