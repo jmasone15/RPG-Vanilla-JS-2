@@ -9,6 +9,7 @@ export const CONSTANTS = {
 	cWidth: canvas.width,
 	cHeight: canvas.height,
 	heroSize: 16,
+	DEFAULT_CHAR_WIDTH: 5,
 	defaultHeroPosition: new Vector2(gridCells(6), gridCells(5)),
 	keyCodes: {
 		keyUp: ['ArrowUp', 'KeyW'],
@@ -27,5 +28,11 @@ export const CONSTANTS = {
 		LINE_HEIGHT: 20,
 		PADDING_LEFT: 10,
 		PADDING_TOP: 12
+	},
+	letterConfig: {
+		PADDING_LEFT: 7,
+		PADDING_TOP: 7,
+		LINE_WIDTH_MAX: 240,
+		LINE_VERTICAL_HEIGHT: 14
 	}
 };

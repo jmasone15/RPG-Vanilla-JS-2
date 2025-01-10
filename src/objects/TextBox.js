@@ -6,6 +6,7 @@ import { CONSTANTS } from '../helpers/constants';
 
 const { MAX_WIDTH, LINE_HEIGHT, PADDING_LEFT, PADDING_TOP } = CONSTANTS.textBox;
 
+// Font-Based TextBox
 export class TextBox extends GameObject {
 	constructor() {
 		super({
@@ -34,6 +35,8 @@ export class TextBox extends GameObject {
 		let words = this.content.split(' ');
 		let line = '';
 
+		// The canvas tag does not have any word-wrapping functionality.
+		// So we have to manually do it by looping through the text and adding breakpoints where appropriate.
 		for (let i = 0; i < words.length; i++) {
 			let testLine = line + words[i] + ' ';
 			let { width } = ctx.measureText(testLine);

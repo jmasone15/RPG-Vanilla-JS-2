@@ -5,7 +5,7 @@ import { Inventory } from './Inventory';
 import { CONSTANTS } from '../helpers/constants';
 import { Vector2 } from '../Vector2';
 import { events } from '../Events';
-import { TextBox } from './TextBox';
+import { SpriteTextString } from './SpriteTextString/SpriteTextString';
 
 const { ctx } = CONSTANTS;
 
@@ -16,7 +16,9 @@ export class Main extends GameObject {
 		this.input = new Input();
 		this.camera = new Camera();
 		this.inventory = new Inventory();
-		this.textBox = new TextBox();
+		this.textBox = new SpriteTextString(
+			'Hello! This is the content! Hello! This is the content! Hello! This is the content! Hello! This is the content!'
+		);
 	}
 
 	ready() {
